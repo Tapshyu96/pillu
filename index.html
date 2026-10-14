@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miles Apart, Hearts Together 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600;800&family=Mukta:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink:#ff4d8d; --rose:#ff8fb1; --gold:#ffd59e;
+    --glass:rgba(255,255,255,0.08); --border:rgba(255,255,255,0.18);
+    --text:#fff5f8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:'Poppins',sans-serif;color:var(--text);min-height:100vh;overflow-x:hidden;
+    background:radial-gradient(ellipse at top,#3a0d3f 0%,#1a0624 45%,#07020d 100%);
+  }
+  /* Stars */
+  .stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .star{position:absolute;background:#fff;border-radius:50%;animation:twinkle 3s infinite ease-in-out}
+  @keyframes twinkle{0%,100%{opacity:.2}50%{opacity:1}}
+  /* Floating hearts */
+  .float-heart{position:fixed;bottom:-40px;z-index:1;pointer-events:none;animation:rise linear forwards;opacity:.7}
+  @keyframes rise{to{transform:translateY(-110vh) rotate(360deg);opacity:0}}
+
+  main{position:relative;z-index:2;max-width:900px;margin:0 auto;padding:40px 16px 80px;text-align:center}
+  h1{font-family:'Great Vibes',cursive;font-size:clamp(3rem,10vw,5.5rem);font-weight:400;
+     background:linear-gradient(90deg,var(--rose),var(--gold),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent;
+     filter:drop-shadow(0 0 20px rgba(255,77,141,.4))}
+  .subtitle{font-weight:300;opacity:.85;margin-top:6px;font-size:clamp(1rem,3vw,1.2rem)}
+  .names{margin-top:14px;font-size:1.3rem;font-weight:600;letter-spacing:1px}
+  .names span{color:var(--pink);display:inline-block;animation:beat 1.2s infinite}
+  @keyframes beat{0%,100%{transform:scale(1)}25%{transform:scale(1.25)}50%{transform:scale(1)}75%{transform:scale(1.15)}}
+
+  .card{background:var(--glass);border:1px solid var(--border);border-radius:24px;padding:28px 20px;margin-top:32px;
+        backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 10px 40px rgba(0,0,0,.35)}
+  .card h2{font-size:1.25rem;font-weight:600;margin-bottom:18px;color:var(--gold)}
+
+  /* Distance */
+  .distance{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .city{flex:0 0 auto;min-width:90px}
+  .city .pin{font-size:2.2rem}
+  .city .cname{font-weight:600;margin-top:4px}
+  .city .ctime{font-size:.85rem;opacity:.75;margin-top:2px}
+  .track{flex:1;position:relative;height:40px}
+  .track::before{content:"";position:absolute;top:50%;left:0;right:0;border-top:3px dashed rgba(255,143,177,.6)}
+  .traveler{position:absolute;top:50%;font-size:1.6rem;transform:translate(-50%,-55%);animation:travel 4s ease-in-out infinite alternate}
+  @keyframes travel{from{left:5%}to{left:95%}}
+  .km{margin-top:14px;font-size:.95rem;opacity:.85}
+  .km b{color:var(--pink);font-size:1.15rem}
+
+  /* Countdown */
+  .countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .unit{background:rgba(255,77,141,.12);border:1px solid rgba(255,77,141,.35);border-radius:18px;padding:16px 4px}
+  .unit .num{font-size:clamp(1.8rem,7vw,3rem);font-weight:800;line-height:1;
+             background:linear-gradient(180deg,#fff,var(--rose));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .unit .lbl{font-size:.75rem;text-transform:uppercase;letter-spacing:2px;opacity:.75;margin-top:6px}
+  .progress{margin-top:22px;height:12px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}
+  .bar{height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--gold));border-radius:99px;transition:width 1s}
+  .progress-text{font-size:.85rem;opacity:.8;margin-top:8px}
+  .meet-msg{font-size:1.6rem;font-weight:800;color:var(--gold);display:none}
+
+  .together{font-size:1.05rem;opacity:.9;margin-top:14px}
+  .together b{color:var(--pink);font-size:1.4rem}
+
+  /* Buttons */
+  .btns{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+  button{font-family:inherit;cursor:pointer;border:none;border-radius:99px;padding:14px 26px;font-size:1rem;font-weight:600;color:#fff;transition:transform .2s,box-shadow .2s}
+  button:hover{transform:translateY(-3px) scale(1.04)}
+  .btn-main{background:linear-gradient(135deg,var(--pink),#c2185b);box-shadow:0 0 25px rgba(255,77,141,.6);animation:glow 2s infinite}
+  @keyframes glow{0%,100%{box-shadow:0 0 15px rgba(255,77,141,.5)}50%{box-shadow:0 0 40px rgba(255,77,141,.95)}}
+  .btn-alt{background:rgba(255,255,255,.1);border:1px solid var(--border)}
+  .hint{font-size:.8rem;opacity:.6;margin-top:12px}
+
+  /* Miss me */
+  .miss-area{position:relative;min-height:90px;margin-top:6px}
+  #noBtn{position:relative;transition:left .25s,top .25s}
+  .reason{min-height:56px;margin-top:18px;font-size:1.1rem;font-style:italic;opacity:0;transition:opacity .5s}
+  .reason.show{opacity:1}
+  #reason{font-family:'Mukta','Poppins',sans-serif;font-style:normal;font-size:1.3rem;line-height:1.6;color:#ffe3ec}
+
+  /* Dogs */
+  .dog-runner{position:fixed;bottom:6px;left:-120px;z-index:3;pointer-events:none;font-size:2.4rem;white-space:nowrap;animation:run 14s linear infinite}
+  .dog-runner .dog{display:inline-block;transform:scaleX(-1);animation:hop .35s ease-in-out infinite alternate}
+  .dog-runner .h{display:inline-block;font-size:1.2rem;vertical-align:top;animation:beat 1.2s infinite}
+  @keyframes run{to{left:calc(100vw + 120px)}}
+  @keyframes hop{to{transform:scaleX(-1) translateY(-8px)}}
+  .dog-runner.back{animation:runBack 19s linear infinite;animation-delay:7s;left:auto;right:-120px;bottom:40px;font-size:1.9rem}
+  .dog-runner.back .dog{transform:none;animation:hop2 .4s ease-in-out infinite alternate}
+  @keyframes runBack{to{right:calc(100vw + 120px)}}
+  @keyframes hop2{to{transform:translateY(-7px)}}
+  .dog-couple{font-size:clamp(2.5rem,9vw,4rem);margin-top:14px;animation:fadeUp 1s .9s both}
+  .dog-couple .l{display:inline-block;transform:scaleX(-1)}
+  .dog-couple .m{display:inline-block;animation:beat 1s infinite}
+  .peek-dog{font-size:2.2rem;display:inline-block;animation:wiggle 1.5s ease-in-out infinite}
+  @keyframes wiggle{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+
+  /* Envelope */
+  .envelope{width:min(320px,85vw);height:200px;margin:0 auto;position:relative;cursor:pointer;perspective:800px}
+  .env-body{position:absolute;inset:0;background:linear-gradient(135deg,#ff8fb1,#ff4d8d);border-radius:10px;z-index:2}
+  .env-flap{position:absolute;top:0;left:0;width:100%;height:0;border-left:calc(min(320px,85vw)/2) solid transparent;border-right:calc(min(320px,85vw)/2) solid transparent;
+            border-top:110px solid #e63e7a;transform-origin:top;transition:transform .6s;z-index:4}
+  .env-seal{position:absolute;top:85px;left:50%;transform:translateX(-50%);font-size:2rem;z-index:5;transition:opacity .3s}
+  .letter{position:absolute;left:6%;right:6%;top:10px;bottom:10px;background:#fff9fb;color:#5a1030;border-radius:8px;padding:16px;
+          font-family:'Great Vibes',cursive;font-size:1.35rem;line-height:1.35;z-index:3;transition:transform .8s .3s;overflow:auto;text-align:left}
+  .envelope.open .env-flap{transform:rotateX(180deg);z-index:1}
+  .envelope.open .env-seal{opacity:0}
+  .envelope.open .letter{transform:translateY(-150px);z-index:6;height:260px;bottom:auto}
+  .env-wrap{padding-top:10px;transition:padding .8s}
+  .env-wrap.opened{padding-top:160px}
+
+  /* Big I Love You overlay */
+  .overlay{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;flex-direction:column;
+           background:radial-gradient(circle,rgba(255,77,141,.35),rgba(7,2,13,.95));backdrop-filter:blur(6px)}
+  .overlay.show{display:flex}
+  .big-love{font-family:'Great Vibes',cursive;font-size:clamp(4rem,18vw,11rem);color:#fff;text-align:center;line-height:1.05;
+            text-shadow:0 0 20px var(--pink),0 0 50px var(--pink),0 0 90px #ff0055;animation:zoomIn .9s cubic-bezier(.2,1.6,.4,1) both}
+  .big-heart{font-size:clamp(5rem,20vw,10rem);animation:beat 1s infinite}
+  .overlay p{margin-top:16px;font-size:1.1rem;opacity:.9;padding:0 16px;animation:fadeUp 1s .6s both}
+  .overlay small{margin-top:24px;opacity:.6;font-size:.85rem}
+  @keyframes zoomIn{from{transform:scale(0) rotate(-10deg);opacity:0}to{transform:scale(1);opacity:1}}
+  @keyframes fadeUp{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:.9}}
+  .burst{position:fixed;z-index:101;pointer-events:none;font-size:1.6rem;animation:burst 1.6s ease-out forwards}
+  @keyframes burst{0%{transform:translate(0,0) scale(.3);opacity:1}100%{transform:translate(var(--x),var(--y)) scale(1.4);opacity:0}}
+
+  /* Games */
+  .tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:18px}
+  .tab{padding:10px 16px;font-size:.9rem;background:rgba(255,255,255,.08);border:1px solid var(--border)}
+  .tab.active{background:linear-gradient(135deg,var(--pink),#c2185b);border-color:transparent}
+  .game{display:none}.game.active{display:block}
+  .game-info{display:flex;justify-content:space-between;font-weight:600;margin-bottom:10px;padding:0 4px;font-size:.95rem}
+  .game-info b{color:var(--gold)}
+  #catchArea{position:relative;height:360px;border-radius:18px;background:rgba(0,0,0,.25);border:1px dashed rgba(255,143,177,.5);overflow:hidden;touch-action:manipulation;user-select:none}
+  .fall{position:absolute;top:-50px;font-size:2.1rem;cursor:pointer;animation:fall linear forwards;padding:4px}
+  @keyframes fall{to{top:105%}}
+  .pop{position:absolute;font-weight:800;color:var(--gold);pointer-events:none;animation:popUp .8s forwards;font-size:1.2rem}
+  @keyframes popUp{to{transform:translateY(-40px);opacity:0}}
+  .game-msg{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:rgba(7,2,13,.7);text-align:center;padding:16px;font-family:'Mukta','Poppins',sans-serif;font-size:1.05rem;line-height:1.6}
+  .memory{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:380px;margin:0 auto}
+  .mcard{aspect-ratio:1;perspective:600px;cursor:pointer}
+  .mcard .inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+  .mcard.flip .inner{transform:rotateY(180deg)}
+  .mcard .front,.mcard .back{position:absolute;inset:0;border-radius:12px;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+  .mcard .front{background:linear-gradient(135deg,var(--pink),#7b1fa2);font-size:1.3rem;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+  .mcard .back{background:#fff0f5;transform:rotateY(180deg);font-size:clamp(1.6rem,7vw,2.3rem)}
+  .mcard.matched .back{box-shadow:0 0 18px var(--gold);background:#fff8e1}
+  #memWin{font-family:'Mukta','Poppins',sans-serif;font-style:normal}
+  .wheel-wrap{position:relative;width:min(300px,78vw);aspect-ratio:1;margin:24px auto 10px}
+  .pointer{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:2rem;z-index:2;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))}
+  .wheel{width:100%;height:100%;border-radius:50%;border:6px solid #fff;position:relative;box-shadow:0 0 30px rgba(255,77,141,.6);transition:transform 4s cubic-bezier(.17,.67,.12,1)}
+  .wheel span{position:absolute;left:50%;top:50%;width:46%;margin-top:-.6em;transform-origin:0 50%;text-align:right;padding-right:10px;font-size:clamp(.62rem,2.6vw,.78rem);font-weight:600;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5);white-space:nowrap}
+  .wheel-hub{position:absolute;top:50%;left:50%;width:46px;height:46px;transform:translate(-50%,-50%);border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:1.4rem;z-index:2}
+  .coupons{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
+  .coupon{background:rgba(255,213,158,.15);border:1px dashed var(--gold);border-radius:10px;padding:6px 12px;font-size:.85rem}
+
+  /* After Dark */
+  .night{background:linear-gradient(160deg,rgba(120,0,40,.35),rgba(20,0,20,.6));border-color:rgba(255,77,141,.45)}
+  .lock{display:flex;flex-direction:column;align-items:center;gap:12px}
+  .lock input{font-family:inherit;font-size:1.2rem;text-align:center;letter-spacing:6px;width:180px;padding:12px;border-radius:14px;border:1px solid var(--border);background:rgba(0,0,0,.3);color:#fff;outline:none}
+  .lock input:focus{border-color:var(--pink)}
+  .lock .err{color:#ff8fb1;font-size:.9rem;min-height:1.2em}
+  #nightGames{display:none}
+  .spicy-card{min-height:120px;margin:18px auto 0;max-width:520px;padding:22px 18px;border-radius:18px;background:rgba(0,0,0,.3);border:1px solid rgba(255,77,141,.4);
+              display:flex;align-items:center;justify-content:center;font-size:1.15rem;line-height:1.6;transition:transform .4s,opacity .4s}
+  .spicy-card.flipping{transform:rotateY(90deg);opacity:0}
+  .spicy-card .tag{display:block;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+  .dice{display:flex;gap:16px;justify-content:center;margin:18px 0}
+  .die{width:min(150px,40vw);min-height:110px;border-radius:20px;background:#fff0f5;color:#7a0f3a;display:flex;align-items:center;justify-content:center;
+       font-weight:800;font-size:1.15rem;padding:10px;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+  .die.roll{animation:roll .6s ease-out}
+  @keyframes roll{0%{transform:rotate(0) scale(.6)}60%{transform:rotate(380deg) scale(1.1)}100%{transform:rotate(360deg) scale(1)}}
+  .wyr{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+  .wyr button{flex:1 1 200px;max-width:260px;border-radius:18px;padding:18px 14px;line-height:1.4;font-weight:600}
+  .wyr .a{background:linear-gradient(135deg,#ff4d8d,#b0124f)}
+  .wyr .b{background:linear-gradient(135deg,#9c27b0,#4a0d67)}
+
+  footer{margin-top:40px;opacity:.6;font-size:.85rem}
+  @media(max-width:520px){.countdown{gap:8px}.unit{padding:12px 2px}.city{min-width:70px}.city .pin{font-size:1.8rem}}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+
+<main>
+  <h1>Miles Apart, Hearts Together</h1>
+  <p class="subtitle">Distance means so little when someone means so much 🌙</p>
+  <p class="names"><span id="myName"></span> <span>❤</span> <span id="herName"></span></p>
+
+  <!-- Distance -->
+  <section class="card">
+    <h2>Under the same sky, just different places 🌍</h2>
+    <div class="distance">
+      <div class="city"><div class="pin">📍</div><div class="cname" id="myCity"></div><div class="ctime" id="myTime"></div></div>
+      <div class="track"><div class="traveler">💌</div></div>
+      <div class="city"><div class="pin">📍</div><div class="cname" id="herCity"></div><div class="ctime" id="herTime"></div></div>
+    </div>
+    <p class="km"><b id="km"></b> km apart… but never far from my heart</p>
+  </section>
+
+  <!-- Countdown -->
+  <section class="card">
+    <h2>Until I hold you again ⏳</h2>
+    <div class="countdown" id="countdown">
+      <div class="unit"><div class="num" id="d">0</div><div class="lbl">Days</div></div>
+      <div class="unit"><div class="num" id="h">0</div><div class="lbl">Hours</div></div>
+      <div class="unit"><div class="num" id="m">0</div><div class="lbl">Minutes</div></div>
+      <div class="unit"><div class="num" id="s">0</div><div class="lbl">Seconds</div></div>
+    </div>
+    <div class="meet-msg" id="meetMsg">🎉 It's today! I'm finally coming to you! 🎉</div>
+    <div class="progress"><div class="bar" id="bar"></div></div>
+    <p class="progress-text" id="progressText"></p>
+    <p class="together">We've been loving each other for <b id="together">0</b> days 💞</p>
+  </section>
+
+  <!-- The curious button -->
+  <section class="card">
+    <h2>Psst… there's something here for you 🙈</h2>
+    <div class="btns">
+      <button class="btn-main" id="loveBtn">🚫 Don't press this button</button>
+    </div>
+    <p class="hint">Seriously. Don't. …okay, maybe just once 😏</p>
+  </section>
+
+  <!-- Do you miss me -->
+  <section class="card">
+    <h2>Quick question… do you miss me? 🥺</h2>
+    <div class="miss-area" id="missArea">
+      <div class="btns">
+        <button class="btn-main" id="yesBtn">Yes, so much 💖</button>
+        <button class="btn-alt" id="noBtn">No 😒</button>
+      </div>
+    </div>
+    <p class="reason" id="missReply"></p>
+  </section>
+
+  <!-- Reasons -->
+  <section class="card">
+    <div class="peek-dog">🐶</div>
+    <h2>Why do I love you? 🤔</h2>
+    <div class="btns"><button class="btn-alt" id="reasonBtn">Tell me a reason ✨</button></div>
+    <p class="reason" id="reason"></p>
+  </section>
+
+  <!-- Games -->
+  <section class="card">
+    <h2>Let's play together 🎮</h2>
+    <div class="tabs">
+      <button class="tab active" data-game="g1">💖 Catch Hearts</button>
+      <button class="tab" data-game="g2">🧩 Memory Match</button>
+      <button class="tab" data-game="g3">🎡 Love Wheel</button>
+    </div>
+
+    <div class="game active" id="g1">
+      <div class="game-info"><span>Score: <b id="catchScore">0</b></span><span>⏱ <b id="catchTime">30</b>s</span><span>Best: <b id="catchBest">0</b></span></div>
+      <div id="catchArea">
+        <div class="game-msg" id="catchMsg">
+          <div id="catchMsgText">Catch the falling love before it's gone!<br>❤️ = +1 &nbsp; 🐶 = +3 &nbsp; 💔 = −2</div>
+          <button class="btn-main" id="catchBtn">Start ▶</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="game" id="g2">
+      <div class="game-info"><span>Moves: <b id="memMoves">0</b></span><span>Pairs: <b id="memMatched">0/8</b></span></div>
+      <div class="memory" id="memory"></div>
+      <p class="reason" id="memWin"></p>
+      <div class="btns" style="margin-top:10px"><button class="btn-alt" id="memRestart">Shuffle again 🔄</button></div>
+    </div>
+
+    <div class="game" id="g3">
+      <p class="subtitle">Spin to win a love coupon for when we meet on 12 December 💞</p>
+      <div class="wheel-wrap">
+        <div class="pointer">🔻</div>
+        <div class="wheel" id="wheel"></div>
+        <div class="wheel-hub">🐶</div>
+      </div>
+      <div class="btns"><button class="btn-main" id="spinBtn">Spin the wheel 🎡</button></div>
+      <p class="reason" id="wheelResult"></p>
+      <div class="coupons" id="coupons"></div>
+    </div>
+  </section>
+
+  <!-- After Dark (18+) -->
+  <section class="card night">
+    <h2>🌙 After Dark · Just for Us (18+) 🔥</h2>
+    <div class="lock" id="nightLock">
+      <p class="subtitle">Our secret games for the nights we're together 😏<br>Enter our secret code to open</p>
+      <input type="password" id="nightCode" inputmode="numeric" placeholder="••••" maxlength="12">
+      <button class="btn-main" id="nightBtn">Unlock 🔓</button>
+      <div class="err" id="nightErr"></div>
+    </div>
+
+    <div id="nightGames">
+      <div class="tabs">
+        <button class="tab2 tab active" data-n="n1">😈 Truth or Dare</button>
+        <button class="tab2 tab" data-n="n2">🎲 Love Dice</button>
+        <button class="tab2 tab" data-n="n3">🤔 Would You Rather</button>
+      </div>
+
+      <div class="ngame" id="n1">
+        <div class="btns">
+          <button class="btn-alt" id="truthBtn">Truth 🙊</button>
+          <button class="btn-main" id="dareBtn">Dare 🔥</button>
+        </div>
+        <div class="spicy-card" id="todCard">Pick one… if you dare 😏</div>
+      </div>
+
+      <div class="ngame" id="n2" style="display:none">
+        <p class="subtitle">Roll the dice and do what it says 😘</p>
+        <div class="dice">
+          <div class="die" id="dieAct">🎲</div>
+          <div class="die" id="diePart">🎲</div>
+        </div>
+        <div class="btns"><button class="btn-main" id="rollBtn">Roll 🎲</button></div>
+        <p class="hint" id="dieTime"></p>
+      </div>
+
+      <div class="ngame" id="n3" style="display:none">
+        <p class="subtitle">Both answer, then compare 😉</p>
+        <div class="wyr">
+          <button class="a" id="wyrA"></button>
+          <button class="b" id="wyrB"></button>
+        </div>
+        <p class="reason" id="wyrPick"></p>
+        <div class="btns" style="margin-top:6px"><button class="btn-alt" id="wyrNext">Next question ➡️</button></div>
+      </div>
+
+      <div class="btns" style="margin-top:22px"><button class="btn-alt" id="nightLockBtn">Lock again 🔒</button></div>
+    </div>
+  </section>
+
+  <!-- Envelope -->
+  <section class="card">
+    <h2>A letter, sealed with love 💌</h2>
+    <div class="env-wrap" id="envWrap">
+      <div class="envelope" id="envelope">
+        <div class="env-flap"></div>
+        <div class="env-seal">💗</div>
+        <div class="letter" id="letter"></div>
+        <div class="env-body"></div>
+      </div>
+    </div>
+    <p class="hint">Tap the envelope to open it</p>
+  </section>
+
+  <footer>Made with ❤ just for you · every day a little closer</footer>
+</main>
+
+<!-- Running dogs -->
+<div class="dog-runner"><span class="dog">🐕</span><span class="h">💕</span></div>
+<div class="dog-runner back"><span class="h">💖</span><span class="dog">🐶</span></div>
+
+<!-- Big I Love You overlay -->
+<div class="overlay" id="overlay">
+  <div class="big-heart">❤️</div>
+  <div class="big-love">I Love You</div>
+  <p id="overlayText"></p>
+  <div class="dog-couple"><span class="l">🐕</span> <span class="m">💞</span> <span>🐕</span></div>
+  <small>tap anywhere to close</small>
+</div>
+
+<script>
+/* ============================================================
+   ✏️  EDIT ONLY THIS PART — your details
+   ============================================================ */
+const CONFIG = {
+  myName:   "Me",
+  herName:  "My Love",
+
+  myCity:   "Pune",
+  myTimeZone: "Asia/Kolkata",
+  herCity:  "Bangalore",
+  herTimeZone: "Asia/Kolkata",
+  distanceKm: 840,
+
+  // Secret code to open the "After Dark" games (change it!)
+  nightCode: "1212",
+
+  // When will you meet next? (YYYY-MM-DDTHH:MM:SS, your local time)
+  meetDate: "2026-12-12T00:00:00",
+  // When did you last see each other? (for the progress bar)
+  lastMetDate: "2026-09-01T18:00:00",
+  // When did your relationship start?
+  startDate: "2024-02-14T00:00:00",
+
+  letter: `My love,<br><br>
+Every sunrise brings me one day closer to you. The miles between us are only numbers — what I feel for you has no distance at all.<br><br>
+Until I can hold your hand again, keep this little page as a reminder: I'm always yours. ❤<br><br>
+Forever yours`,
+
+  reasons: [
+    "तुझं हसणं म्हणजे माझ्या दिवसाची सगळ्यात सुंदर सुरुवात. 🌸",
+    "अंतर कितीही असलं, तरी तू नेहमी माझ्या हृदयाच्या जवळ आहेस. ❤️",
+    "तुझा आवाज ऐकला की सगळा थकवा क्षणात दूर होतो. 📞",
+    "पुणे ते बंगळूरु… पण माझं मन मात्र नेहमी तुझ्याजवळच असतं. 💌",
+    "चंद्र एकच, आकाश एकच… आणि त्याखाली आपलं प्रेमही एकच. 🌙",
+    "तू आहेस म्हणून माझं आयुष्य इतकं सुंदर आहे. ✨",
+    "तुझ्यासोबत प्रत्येक स्वप्न खरं वाटायला लागतं. 💫",
+    "तू माझी सगळ्यात चांगली मैत्रीण आणि माझं सगळं काही आहेस. 💕",
+    "प्रत्येक 'गुड नाईट' नंतर मी फक्त तुझ्या 'गुड मॉर्निंग'ची वाट पाहतो. ☀️",
+    "तुझ्याशिवाय मी अपूर्ण आहे, आणि तुझ्यासोबत पूर्ण. 💞",
+    "कितीही दूर असलीस तरी तू माझ्या प्रत्येक श्वासात आहेस. 🌹",
+    "१२ डिसेंबरची वाट पाहतोय… तुला घट्ट मिठी मारण्यासाठी. 🤗",
+    "Because your smile fixes my worst days, even through a screen.",
+    "Because you believe in us even when the distance feels heavy.",
+    "Because no amount of kilometres could ever change how I feel."
+  ],
+
+  loveMessages: [
+    "Every single kilometre between us is worth it for you.",
+    "You are my today, my tomorrow and every day after.",
+    "No distance can dim what I feel for you.",
+    "Counting the seconds till I can say this in person."
+  ]
+};
+/* ============================================================ */
+
+const $ = id => document.getElementById(id);
+
+// Fill text
+$("myName").textContent = CONFIG.myName;
+$("herName").textContent = CONFIG.herName;
+$("myCity").textContent = CONFIG.myCity;
+$("herCity").textContent = CONFIG.herCity;
+$("km").textContent = CONFIG.distanceKm.toLocaleString();
+$("letter").innerHTML = CONFIG.letter;
+
+// Stars
+const starBox = $("stars");
+for (let i = 0; i < 120; i++) {
+  const s = document.createElement("div");
+  s.className = "star";
+  const size = Math.random() * 2.5 + 0.5;
+  s.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${Math.random()*3}s`;
+  starBox.appendChild(s);
+}
+
+// Floating hearts
+const heartIcons = ["💖","💕","💗","💓","❤️","💞","🐶","🐾"];
+const floatIcons = ["💖","💕","💗","💓","❤️","💞","🐶","🐕","🐾","🐾"];
+function spawnHeart() {
+  const h = document.createElement("div");
+  h.className = "float-heart";
+  h.textContent = floatIcons[Math.floor(Math.random()*floatIcons.length)];
+  h.style.left = Math.random()*100 + "vw";
+  h.style.fontSize = (Math.random()*18 + 14) + "px";
+  h.style.animationDuration = (Math.random()*6 + 7) + "s";
+  document.body.appendChild(h);
+  setTimeout(() => h.remove(), 13000);
+}
+setInterval(spawnHeart, 900);
+
+// Local times in both cities
+function fmtTime(tz) {
+  try {
+    return new Intl.DateTimeFormat("en-US",{hour:"numeric",minute:"2-digit",timeZone:tz}).format(new Date());
+  } catch(e) { return ""; }
+}
+
+// Countdown — recalculated from the real clock every second
+const meet = new Date(CONFIG.meetDate).getTime();
+const last = new Date(CONFIG.lastMetDate).getTime();
+const start = new Date(CONFIG.startDate).getTime();
+const pad = n => String(n).padStart(2, "0");
+
+function tick() {
+  const now = Date.now();
+  const diff = meet - now;
+
+  if (diff <= 0) {
+    $("countdown").style.display = "none";
+    $("meetMsg").style.display = "block";
+    $("bar").style.width = "100%";
+    $("progressText").textContent = "The wait is over 💞";
+  } else {
+    $("d").textContent = Math.floor(diff / 86400000);
+    $("h").textContent = pad(Math.floor(diff / 3600000) % 24);
+    $("m").textContent = pad(Math.floor(diff / 60000) % 60);
+    $("s").textContent = pad(Math.floor(diff / 1000) % 60);
+    const pct = Math.min(100, Math.max(0, (now - last) / (meet - last) * 100));
+    $("bar").style.width = pct.toFixed(1) + "%";
+    $("progressText").textContent = `${pct.toFixed(1)}% of the wait is already behind us`;
+  }
+  $("together").textContent = Math.max(0, Math.floor((now - start) / 86400000)).toLocaleString();
+  $("myTime").textContent = fmtTime(CONFIG.myTimeZone);
+  $("herTime").textContent = fmtTime(CONFIG.herTimeZone);
+}
+tick();
+setInterval(tick, 1000);
+
+// Big I Love You
+function heartBurst(count = 40) {
+  for (let i = 0; i < count; i++) {
+    const b = document.createElement("div");
+    b.className = "burst";
+    b.textContent = heartIcons[Math.floor(Math.random()*heartIcons.length)];
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 150 + Math.random() * 350;
+    b.style.left = "50vw"; b.style.top = "50vh";
+    b.style.setProperty("--x", Math.cos(angle)*dist + "px");
+    b.style.setProperty("--y", Math.sin(angle)*dist + "px");
+    document.body.appendChild(b);
+    setTimeout(() => b.remove(), 1700);
+  }
+}
+let loveClicks = 0;
+const loveLabels = ["🚫 Don't press this button","😳 You pressed it… again?","🙈 Okay fine, one more","💘 You can't resist me, huh?"];
+$("loveBtn").onclick = () => {
+  $("overlayText").textContent = CONFIG.loveMessages[loveClicks % CONFIG.loveMessages.length];
+  const ov = $("overlay");
+  ov.classList.remove("show"); void ov.offsetWidth; ov.classList.add("show");
+  // restart text animation
+  const big = ov.querySelector(".big-love");
+  big.style.animation = "none"; void big.offsetWidth; big.style.animation = "";
+  heartBurst();
+  loveClicks++;
+  setTimeout(() => $("loveBtn").textContent = loveLabels[loveClicks % loveLabels.length], 400);
+};
+$("overlay").onclick = () => $("overlay").classList.remove("show");
+
+// Do you miss me? — "No" runs away
+const noBtn = $("noBtn");
+function runAway() {
+  const area = $("missArea").getBoundingClientRect();
+  const maxX = Math.max(40, area.width / 2 - 60);
+  noBtn.style.left = (Math.random()*2 - 1) * maxX + "px";
+  noBtn.style.top = (Math.random()*60 - 10) + "px";
+}
+noBtn.addEventListener("mouseenter", runAway);
+noBtn.addEventListener("touchstart", e => { e.preventDefault(); runAway(); }, {passive:false});
+noBtn.addEventListener("click", runAway);
+$("yesBtn").onclick = () => {
+  const r = $("missReply");
+  r.textContent = "I knew it 🥰 I miss you more — every minute of every day.";
+  r.classList.add("show");
+  heartBurst(25);
+};
+
+// Reasons
+let lastReason = -1;
+$("reasonBtn").onclick = () => {
+  let i;
+  do { i = Math.floor(Math.random()*CONFIG.reasons.length); } while (i === lastReason && CONFIG.reasons.length > 1);
+  lastReason = i;
+  const r = $("reason");
+  r.classList.remove("show");
+  setTimeout(() => { r.textContent = "“" + CONFIG.reasons[i] + "”"; r.classList.add("show"); }, 250);
+  $("reasonBtn").textContent = "Another one 💫";
+};
+
+// ================= GAMES =================
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch(e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} }
+};
+
+// Tabs
+document.querySelectorAll(".tab[data-game]").forEach(t => t.onclick = () => {
+  document.querySelectorAll(".tab[data-game], .game").forEach(e => e.classList.remove("active"));
+  t.classList.add("active");
+  $(t.dataset.game).classList.add("active");
+});
+
+// --- Game 1: Catch the Hearts ---
+const catchArea = $("catchArea");
+let cScore = 0, cTime = 0, cTimer = null, cSpawn = null;
+$("catchBest").textContent = store.get("catchBest", 0);
+
+function startCatch() {
+  cScore = 0; cTime = 30;
+  $("catchScore").textContent = 0; $("catchTime").textContent = 30;
+  $("catchMsg").style.display = "none";
+  cSpawn = setInterval(spawnFall, 550);
+  cTimer = setInterval(() => { cTime--; $("catchTime").textContent = cTime; if (cTime <= 0) endCatch(); }, 1000);
+}
+function spawnFall() {
+  const r = Math.random(); let icon, pts;
+  if (r < 0.13) { icon = "💔"; pts = -2; }
+  else if (r < 0.26) { icon = "🐶"; pts = 3; }
+  else { icon = ["❤️","💖","💕","💗"][Math.floor(Math.random()*4)]; pts = 1; }
+  const f = document.createElement("div");
+  f.className = "fall"; f.textContent = icon;
+  f.style.left = Math.random() * (catchArea.clientWidth - 50) + "px";
+  f.style.animationDuration = (Math.random()*1.5 + 2.2) + "s";
+  f.addEventListener("pointerdown", e => {
+    e.preventDefault();
+    cScore = Math.max(0, cScore + pts);
+    $("catchScore").textContent = cScore;
+    const p = document.createElement("div");
+    p.className = "pop"; p.textContent = (pts > 0 ? "+" : "") + pts;
+    p.style.left = f.style.left; p.style.top = f.offsetTop + "px";
+    catchArea.appendChild(p); setTimeout(() => p.remove(), 800);
+    f.remove();
+  });
+  f.addEventListener("animationend", () => f.remove());
+  catchArea.appendChild(f);
+}
+function endCatch() {
+  clearInterval(cSpawn); clearInterval(cTimer);
+  catchArea.querySelectorAll(".fall").forEach(f => f.remove());
+  const best = Math.max(cScore, store.get("catchBest", 0));
+  store.set("catchBest", best); $("catchBest").textContent = best;
+  $("catchMsgText").innerHTML = `You caught <b>${cScore}</b> points of love! 💖<br>` +
+    (cScore >= 25 ? "तू तर माझं संपूर्ण हृदय पकडलंस! 😍" : "पण माझं हृदय तर तू आधीच पकडलं आहेस 😘");
+  $("catchBtn").textContent = "Play again 🔁";
+  $("catchMsg").style.display = "flex";
+}
+$("catchBtn").onclick = startCatch;
+
+// --- Game 2: Memory Match ---
+const memIcons = ["❤️","🐶","🌙","💌","🌹","🧸","🍫","💍"];
+let mFirst = null, mLock = false, mMoves = 0, mMatched = 0;
+function startMemory() {
+  const deck = [...memIcons, ...memIcons].sort(() => Math.random() - 0.5);
+  const g = $("memory"); g.innerHTML = "";
+  mFirst = null; mLock = false; mMoves = 0; mMatched = 0;
+  $("memMoves").textContent = 0; $("memMatched").textContent = "0/8";
+  $("memWin").classList.remove("show");
+  deck.forEach(icon => {
+    const c = document.createElement("div");
+    c.className = "mcard";
+    c.innerHTML = `<div class="inner"><div class="front">💗</div><div class="back">${icon}</div></div>`;
+    c.onclick = () => flipCard(c, icon);
+    g.appendChild(c);
+  });
+}
+function flipCard(c, icon) {
+  if (mLock || c.classList.contains("flip")) return;
+  c.classList.add("flip");
+  if (!mFirst) { mFirst = { c, icon }; return; }
+  mMoves++; $("memMoves").textContent = mMoves;
+  if (mFirst.icon === icon) {
+    c.classList.add("matched"); mFirst.c.classList.add("matched");
+    mFirst = null; mMatched++;
+    $("memMatched").textContent = mMatched + "/8";
+    if (mMatched === 8) {
+      $("memWin").textContent = `🎉 All pairs in ${mMoves} moves! आपली जोडी पण अशीच परफेक्ट आहे 💞`;
+      $("memWin").classList.add("show");
+      heartBurst(30);
+    }
+  } else {
+    mLock = true; const first = mFirst; mFirst = null;
+    setTimeout(() => { c.classList.remove("flip"); first.c.classList.remove("flip"); mLock = false; }, 800);
+  }
+}
+$("memRestart").onclick = startMemory;
+startMemory();
+
+// --- Game 3: Love Wheel ---
+const prizes = ["1 Tight Hug 🤗","Movie Date 🎬","Forehead Kiss 😘","Dinner on me 🍕","Long Walk 🌙","Your Wish 👑","Ice Cream 🍦","Cuddle Day 🐶"];
+const seg = 360 / prizes.length;
+const wheel = $("wheel");
+wheel.style.background = "conic-gradient(" + prizes.map((_, i) =>
+  `${i % 2 ? "#9c27b0" : "#ff4d8d"} ${i*seg}deg ${(i+1)*seg}deg`).join(",") + ")";
+prizes.forEach((p, i) => {
+  const s = document.createElement("span");
+  s.textContent = p;
+  s.style.transform = `rotate(${(i + 0.5) * seg - 90}deg)`;
+  wheel.appendChild(s);
+});
+function renderCoupons() {
+  const list = store.get("coupons", []);
+  if (!list.length) { $("coupons").innerHTML = ""; return; }
+  const counts = {};
+  list.forEach(c => counts[c] = (counts[c] || 0) + 1);
+  $("coupons").innerHTML = `<div style="width:100%;font-size:.85rem;opacity:.8">🎟 Your coupons for 12 December:</div>` +
+    Object.entries(counts).map(([c, n]) => `<span class="coupon">${c}${n > 1 ? " ×" + n : ""}</span>`).join("");
+}
+renderCoupons();
+let spinning = false, wheelRot = 0;
+$("spinBtn").onclick = () => {
+  if (spinning) return;
+  spinning = true;
+  $("wheelResult").classList.remove("show");
+  const k = Math.floor(Math.random() * prizes.length);
+  const center = (k + 0.5) * seg;
+  const cur = wheelRot % 360;
+  wheelRot += 1800 + (((360 - center - cur) % 360) + 360) % 360;
+  wheel.style.transform = `rotate(${wheelRot}deg)`;
+  setTimeout(() => {
+    spinning = false;
+    $("wheelResult").innerHTML = `You won: <b>${prizes[k]}</b><br>Redeem it when we meet 💞`;
+    $("wheelResult").classList.add("show");
+    const list = store.get("coupons", []); list.push(prizes[k]); store.set("coupons", list);
+    renderCoupons();
+    heartBurst(20);
+  }, 4100);
+};
+
+// ================= AFTER DARK (18+) =================
+function unlockNight() {
+  if ($("nightCode").value.trim() === CONFIG.nightCode) {
+    $("nightLock").style.display = "none";
+    $("nightGames").style.display = "block";
+    $("nightErr").textContent = "";
+    heartBurst(25);
+  } else {
+    $("nightErr").textContent = "Wrong code, baby 😜 try again";
+  }
+}
+$("nightBtn").onclick = unlockNight;
+$("nightCode").addEventListener("keydown", e => { if (e.key === "Enter") unlockNight(); });
+$("nightLockBtn").onclick = () => {
+  $("nightGames").style.display = "none";
+  $("nightLock").style.display = "flex";
+  $("nightCode").value = "";
+};
+document.querySelectorAll(".tab2").forEach(t => t.onclick = () => {
+  document.querySelectorAll(".tab2").forEach(e => e.classList.remove("active"));
+  document.querySelectorAll(".ngame").forEach(e => e.style.display = "none");
+  t.classList.add("active");
+  $(t.dataset.n).style.display = "block";
+});
+const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+
+// Truth or Dare
+const truths = [
+  "What's the first thing you noticed about me that made you want me?",
+  "What's your favourite memory of us kissing?",
+  "Which outfit of mine drives you the craziest?",
+  "Where is the one place you secretly want me to kiss you?",
+  "What's a fantasy about us you've never told me?",
+  "When did you last think about me in a naughty way? Be honest 😏",
+  "What's the most attractive thing I do without realising it?",
+  "What do you miss most about my touch when we're apart?",
+  "What's the boldest thing you've ever wanted to try with me?",
+  "On a scale of 1–10, how much do you want me right now?",
+  "Which of our nights together is your all-time favourite, and why?",
+  "What's one thing I do that instantly turns you on?"
+];
+const dares = [
+  "Give me a slow kiss that lasts at least 30 seconds 💋",
+  "Whisper something naughty in my ear",
+  "Give me a 2-minute shoulder & back massage",
+  "Kiss me somewhere other than my lips — you choose 😏",
+  "Slow dance with me to our song, no gap between us",
+  "Blindfold me and kiss me in 3 surprise places",
+  "Tell me exactly what you want tonight, in detail",
+  "Sit on my lap for the next two rounds",
+  "Remove one piece of clothing of your choice 😈",
+  "Trace a word on my back with your finger — I have to guess it",
+  "Give me a hickey somewhere only you'll see",
+  "Kiss my neck for 20 seconds without stopping",
+  "Feed me something sweet… without using your hands",
+  "Let me choose where you kiss me next"
+];
+function showCard(tag, text) {
+  const c = $("todCard");
+  c.classList.add("flipping");
+  setTimeout(() => { c.innerHTML = `<div><span class="tag">${tag}</span>${text}</div>`; c.classList.remove("flipping"); }, 300);
+}
+$("truthBtn").onclick = () => showCard("Truth 🙊", pick(truths));
+$("dareBtn").onclick = () => showCard("Dare 🔥", pick(dares));
+
+// Love Dice
+const actions = ["Kiss 💋","Lick 👅","Bite softly 😬","Massage 💆","Caress 🤲","Blow on 🌬️","Nibble 😏","Your choice 🎁"];
+const parts   = ["Neck","Lips","Ears","Shoulders","Back","Stomach","Inner thigh","Collarbone","Hands","Anywhere 😈"];
+$("rollBtn").onclick = () => {
+  ["dieAct","diePart"].forEach(id => { const d = $(id); d.classList.remove("roll"); void d.offsetWidth; d.classList.add("roll"); });
+  setTimeout(() => {
+    $("dieAct").textContent = pick(actions);
+    $("diePart").textContent = pick(parts);
+    $("dieTime").textContent = `⏱ for ${pick([10,20,30,45,60])} seconds`;
+  }, 300);
+};
+
+// Would You Rather
+const wyr = [
+  ["Kiss for an hour without stopping","Cuddle all night without kissing"],
+  ["Lights on","Lights off 😏"],
+  ["Make out in the rain","Make out in a parked car"],
+  ["A slow, romantic night","A wild, spontaneous night"],
+  ["Be blindfolded","Do the blindfolding"],
+  ["Give a full-body massage","Receive a full-body massage"],
+  ["A bubble bath together","A long shower together"],
+  ["Morning cuddles","Midnight cuddles"],
+  ["Me in your clothes","Me in nothing at all 😈"],
+  ["Be teased for 10 minutes","Do the teasing for 10 minutes"],
+  ["Stay in bed all day together","Go on a fancy date, then come home early"],
+  ["Hear me whisper what I want","Have me show you"]
+];
+let wyrCur = null;
+function nextWyr() {
+  wyrCur = pick(wyr);
+  $("wyrA").textContent = wyrCur[0];
+  $("wyrB").textContent = wyrCur[1];
+  $("wyrPick").classList.remove("show");
+}
+const wyrChoose = i => {
+  $("wyrPick").textContent = `You chose: ${wyrCur[i]} 😏 Now ask me!`;
+  $("wyrPick").classList.add("show");
+};
+$("wyrA").onclick = () => wyrChoose(0);
+$("wyrB").onclick = () => wyrChoose(1);
+$("wyrNext").onclick = nextWyr;
+nextWyr();
+
+// Envelope
+$("envelope").onclick = () => {
+  $("envelope").classList.toggle("open");
+  $("envWrap").classList.toggle("opened");
+};
+</script>
+</body>
+</html>
